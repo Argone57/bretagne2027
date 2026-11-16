@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Bretagne 2027</title>
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+
+
+<style>
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+}
+
+#map {
+
+    height: 100vh;
+
+}
+
+.panel {
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    z-index: 1000;
+
+    background: white;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    max-width: 280px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+
+}
+
+button {
+
+    margin: 2px;
+
+    padding: 6px 10px;
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<div id="map"></div>
+
+
+
+<div class="panel">
+
+<h3>Bretagne 2027</h3>
+
+<p>
+
+17/05 → 29/05 : Clohars-Fouesnant<br>
+
+29/05 → 09/06 : Saint-Jouan-des-Guérets
+
+</p>
+
+
+
+<button onclick="showSouth()">Finistère Sud</button>
+
+<button onclick="showNorth()">Côte d'Émeraude</button>
+
+<button onclick="showAll()">Tout</button>
+
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js">\</script>
+
+
+
+<script>
+
+
+
+const map = L.map('map').setView([48.2, -4.2], 8);
+
+
+
+L.tileLayer(
+
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+{
+
+maxZoom: 18,
+
+attribution:'© OpenStreetMap'
+
+}
+
+).addTo(map);
+
+
+
+const south = L.layerGroup();
+
+const north = L.layerGroup();
+
+
+
+function addMarker(layer, lat, lon, txt){
+
+L.marker([lat,lon]).bindPopup(txt).addTo(layer);
+
+}
+
+
+
+// Hébergement Finistère
+
+
+
+addMarker(
+
+south,
+
+47.895,
+
+-4.107,
+
+"<b>Clohars-Fouesnant</b><br>17 au 29 mai 2027"
+
+);
+
+
+
+addMarker(south,47.875,-4.105,"Bénodet");
+
+addMarker(south,47.873,-3.917,"Concarneau");
+
+addMarker(south,47.996,-4.102,"Quimper");
+
+addMarker(south,48.098,-4.212,"Locronan");
+
+addMarker(south,48.248,-4.490,"Crozon");
+
+addMarker(south,48.039,-4.742,"Pointe du Raz");
+
+addMarker(south,47.791,-4.284,"Le Guilvinec");
+
+addMarker(south,47.855,-3.748,"Pont-Aven");
+
+
+
+// Hébergement Saint-Malo
+
+
+
+addMarker(
+
+north,
+
+48.604,
+
+-1.973,
+
+"<b>Saint-Jouan-des-Guérets</b><br>29 mai au 9 juin 2027"
+
+);
+
+
+
+addMarker(north,48.649,-2.025,"Saint-Malo");
+
+addMarker(north,48.676,-1.852,"Cancale");
+
+addMarker(north,48.572,-1.985,"Saint-Suliac");
+
+addMarker(north,48.455,-2.048,"Dinan");
+
+addMarker(north,48.684,-2.317,"Cap Fréhel");
+
+addMarker(north,48.636,-2.291,"Fort La Latte");
+
+addMarker(north,48.636,-1.511,"Mont-Saint-Michel");
+
+addMarker(north,48.548,-1.750,"Dol-de-Bretagne");
+
+
+
+south.addTo(map);
+
+north.addTo(map);
+
+
+
+function showSouth() {
+
+map.removeLayer(north);
+
+map.addLayer(south);
+
+}
+
+
+
+function showNorth() {
+
+map.removeLayer(south);
+
+map.addLayer(north);
+
+}
+
+
+
+function showAll() {
+
+map.addLayer(south);
+
+map.addLayer(north);
+
+}
+
+
+
+const route = L.polyline([
+
+[47.895,-4.107],
+
+[48.604,-1.973]
+
+], {
+
+color:'blue',
+
+weight:4
+
+}).addTo(map);
+
+
+
+map.fitBounds(route.getBounds());
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
+
